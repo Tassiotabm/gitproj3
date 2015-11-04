@@ -26,6 +26,14 @@
 #include   <malloc.h>
 #include   <assert.h>
 
+#ifdef _DEBUG
+   #include   "Generico.h"
+   #include   "Conta.h"
+   #include   "cespdin.h"
+   #include   "IdTiposEspaco.def"
+#endif
+
+
 #define LISTA_OWN
 #include "LISTA.h"
 #undef LISTA_OWN
@@ -39,6 +47,9 @@
 
    typedef struct tagElemLista {
 
+	#ifdef _DEBUG
+		  struct LIS_tagLista * listaCabeca;
+	#endif
          void * pValor ;
                /* Ponteiro para o valor contido no elemento */
 
@@ -76,6 +87,19 @@
 
    } LIS_tpLista ;
 
+#ifdef _DEBUG
+/***** Declaração dos tipos de dados da lista*/
+   typedef enum {
+	   LIS_TipoCabeca,
+	   LIS_TipoElemento
+	   /*
+	   *
+	   *
+	   *
+	   */
+   } LIS_TipoEspaco;
+#endif
+
 /***** Protótipos das funções encapuladas no módulo *****/
 
    static void LiberarElemento( LIS_tppLista   pLista ,
@@ -85,6 +109,17 @@
                                        void *       pValor  ) ;
 
    static void LimparCabeca( LIS_tppLista pLista ) ;
+
+   /*****  vetor de lixo */
+	  #ifdef _DEBUG
+
+      static char vtLixo[ 256 ] =
+             "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx" ;
+            /* Espaço de dados lixo usado ao testar */
+
+      #endif
+
+/*********************/
 
 /*****  Código das funções exportadas pelo módulo  *****/
 
@@ -108,6 +143,10 @@
       LimparCabeca( pLista ) ;
 
       pLista->ExcluirValor = ExcluirValor ;
+
+	#ifdef _DEBUG
+         CED_DefinirTipoEspaco( pLista , LIS_TipoCabeca ) ;
+    #endif
 
       return pLista ;
 
@@ -528,6 +567,11 @@
       {
          return NULL ;
       } /* if */
+
+	#ifdef _DEBUG
+      CED_DefinirTipoEspaco( pElem , LIS_TipoElemento ) ;
+	  pElem->listaCabeca = pLista;
+	#endif
 
       pElem->pValor = pValor ;
       pElem->pAnt   = NULL  ;

@@ -93,6 +93,44 @@ typedef struct LIS_tagLista * LIS_tppLista ;
 
    } LIS_tpCondRet ;
 
+   #ifdef _DEBUG
+
+   typedef enum {
+
+         DeturpaEliminaCorr       =  1 ,
+               /* Elimina o nó corrente da esturutra */
+
+         DeturpaPtProxNulo          =  2 ,
+               /* Anula o ponteiro para o próximo elemento da estrutura */
+
+         DeturpaPtAntNulo      =  3 ,
+               /* Anula o ponteiro para o elemento anterior */
+
+         DeturpaPtProxLixo          =  4 ,
+               /* Atribui Lixo para o ponteiro do próximo elemento */
+
+         DeturpaPtAntLixo      =  5 ,
+               /* Atribui Lixo para o ponteiro para o elemento anterior */
+
+         DeturpaPtConteudoCorrNulo            =  6 ,
+               /* Atribui Nulo ao conteúdo do nó corrente */
+
+         DeturpaTipoCorr      =  7 ,
+               /* Modifica o tipo de espaço de dados do nó corrente */
+
+         DeturpaEliminaSemFree         =  8 ,
+               /* Elimina o elemento corrente sem usar free() */
+
+         DeturpaPtCorrNulo         =  9 ,
+               /* Atribui Nulo ao elemento corrente */
+
+         DeturpaPtOrigemNulo        = 10 ,
+               /* Atribui nulo ao ponteiro de origem da estrutura */
+
+   } LIS_ModosDeturpacao ;
+
+#endif
+
 
 /***********************************************************************
 *
@@ -345,7 +383,8 @@ typedef struct LIS_tagLista * LIS_tppLista ;
 
 	void DeturpaLista ( void* pLista, LIS_ModosDeturpacao Deturpacao);
 
-
+	// verifica lista....
+#endif
 
 #undef LISTA_EXT
 
